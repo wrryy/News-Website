@@ -12,7 +12,9 @@
 
 <form:form method="post" action="/author/edit" modelAttribute="author">
     <form:hidden path="id"/>
+    <form:errors path="firstName" cssClass="error"/>
     First name: <form:input path="firstName"/><br>
+    <form:errors path="lastName" cssClass="error"/>
     Last name: <form:input path="lastName"/><br>
     <input type="submit" value="Send">
 </form:form>

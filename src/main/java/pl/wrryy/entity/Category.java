@@ -1,6 +1,7 @@
 package pl.wrryy.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", length = 100, unique = true)
+    @Size(min = 5, max = 100)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "description")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.wrryy.dao.AuthorDao;
-import pl.wrryy.dao.CategoryDao;
+import pl.wrryy.dao.AuthorRepository;
+import pl.wrryy.dao.CategoryRepository;
 import pl.wrryy.entity.Author;
 import pl.wrryy.entity.Category;
 
@@ -18,21 +18,21 @@ import java.util.List;
 @RequestMapping("/author")
 public class AuthorController {
     @Autowired
-    private AuthorDao dao;
+    private AuthorRepository dao;
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryRepository categoryDao;
 
     private static final String ENT = "author";
     private static final String REDIRECT = "redirect:/author/all";
 
     @ModelAttribute("cats")
     public List<Category> list(){
-        return categoryDao.getAll();
+        return categoryDao.findAll();
     }
 
     @RequestMapping("/all")
     private String print(Model model) {
-        model.addAttribute(ENT, dao.getAll());
+        model.addAttribute(ENT, dao.findAll());
         return ENT+"/all";
     }
     @RequestMapping(value ="/add", method = RequestMethod.GET)
@@ -47,17 +47,17 @@ public class AuthorController {
     }
     @RequestMapping(value ="/edit/{id}", method = RequestMethod.GET)
     private String edit(Model model, @PathVariable int id){
-        model.addAttribute(ENT, dao.getById(id));
+        model.addAttribute(ENT, dao.findOne(id));
         return ENT+"/edit";
     }
     @RequestMapping(value ="/edit", method = RequestMethod.POST)
     private String edit(@ModelAttribute Author author){
-        dao.edit(author);
+        dao.save(author);
         return REDIRECT;
     }
     @RequestMapping("/delete/{id}")
     private String delete(Model model, @PathVariable int id){
-        dao.delete(dao.getById(id));
+        dao.delete(dao.findOne(id));
         return REDIRECT;
     }
 }

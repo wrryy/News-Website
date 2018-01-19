@@ -6,9 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.wrryy.dao.ArticleDao;
-import pl.wrryy.dao.CategoryDao;
-import pl.wrryy.entity.Article;
+import pl.wrryy.dao.ArticleRepository;
+import pl.wrryy.dao.CategoryRepository;
 import pl.wrryy.entity.Category;
 
 import java.util.List;
@@ -17,18 +16,18 @@ import java.util.List;
 public class HomePageController {
 
     @Autowired
-    private ArticleDao articleDao;
+    private ArticleRepository articleDao;
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryRepository categoryDao;
 
-    @ModelAttribute("categories")
-    public List<Category> categories(){
-        return categoryDao.getAll();
+    @ModelAttribute("cats")
+    public List<Category> listC() {
+        return categoryDao.findAll();
     }
 
-    @RequestMapping("/")
+    @RequestMapping({"/home","/"})
     public String printArticles(Model model) {
-        model.addAttribute("top5", articleDao.getAll().subList(0, 4));
+        model.addAttribute("top5", articleDao.findAll().subList(0, 4));
         return "home";
     }
     @RequestMapping("/articles/{category}")

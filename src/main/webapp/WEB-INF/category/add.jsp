@@ -11,6 +11,7 @@
 <%@ include file="../menu.jsp" %>
 
 <form:form method="post" action="/category/add" modelAttribute="category">
+    <form:errors path="name" cssClass="error"/>
     <form:input path="name"/>
     <form:input path="description"/>
     <input type="submit" value="Send">

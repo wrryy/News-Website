@@ -1,7 +1,10 @@
 package pl.wrryy.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -11,16 +14,20 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "title", length = 100)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "title")
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Author author;
 
-    @ManyToMany(mappedBy = "articles")
+    @NotNull
+    @ManyToMany(mappedBy = "articles", fetch = FetchType.EAGER)
     private List<Category> category;
 
+    @NotNull
+    @Size(min = 500)
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
@@ -29,7 +36,9 @@ public class Article {
 
     @Column(name = "updated")
     private LocalDateTime updated;
-
+    public String getDate() {
+        return Arrays.toString(created.toString().split("T"));
+    }
     public Article() {
         this.created = LocalDateTime.now();
     }
@@ -67,7 +76,7 @@ public class Article {
     }
 
     public void setTitle(String title) {
-        this.title = title  ;
+        this.title = title;
     }
 
     public void setAuthor(Author author) {

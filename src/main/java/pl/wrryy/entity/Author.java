@@ -1,6 +1,7 @@
 package pl.wrryy.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "author")
@@ -8,16 +9,17 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @NotNull
     @Column(name = "first_name", length = 100)
     private String firstName;
 
+    @NotNull
     @Column(name = "last_name", length = 100)
     private String lastName;
 
     public Author() {
     }
-
+    public String getName(){return firstName + " " + lastName;}
     public int getId() {
         return id;
     }

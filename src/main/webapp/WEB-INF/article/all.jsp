@@ -8,7 +8,6 @@
 </head>
 <body>
 <%@ include file="../menu.jsp" %><br>
-<a href="/article/add">Add article</a><br>
 <h2>Articles list</h2>
 <c:forEach items="${article}" var="art">
     <div>

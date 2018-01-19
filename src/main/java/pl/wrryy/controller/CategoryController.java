@@ -4,52 +4,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.wrryy.dao.CategoryDao;
+import pl.wrryy.dao.CategoryRepository;
 import pl.wrryy.entity.Category;
 
 import java.util.List;
-
+@RequestMapping("/category")
 @Controller
 public class CategoryController {
 
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryRepository categoryDao;
     private static final String ENT = "category";
     private static final String REDIRECT = "redirect:/"+ENT+"/all";
 
     @ModelAttribute("cats")
     public List<Category> list(){
-        return categoryDao.getAll();
+        return categoryDao.findAll();
     }
 
-    @RequestMapping(ENT+"/all")
+    @RequestMapping("/all")
     private String print(Model model) {
-        model.addAttribute(ENT, categoryDao.getAll());
+        model.addAttribute(ENT, categoryDao.findAll());
         return ENT + "/all";
     }
-    @RequestMapping(value = ENT+"/add", method = RequestMethod.GET)
+    @GetMapping("/add")
     private String add(Model model){
         model.addAttribute(ENT, new Category());
         return ENT+"/add";
     }
-    @RequestMapping(value = ENT+"/add", method = RequestMethod.POST)
+    @PostMapping(value = ENT+"/add")
     private String add(@ModelAttribute Category category) {
         categoryDao.save(category);
         return REDIRECT;
     }
-    @RequestMapping(value = ENT+"/edit/{id}", method = RequestMethod.GET)
+    @GetMapping("/edit/{id}")
     private String edit(Model model, @PathVariable int id){
-        model.addAttribute(ENT, categoryDao.getById(id));
+        model.addAttribute(ENT, categoryDao.findOne(id));
         return ENT+"/edit";
     }
-    @RequestMapping(value = ENT+"/edit", method = RequestMethod.POST)
+    @PostMapping("/edit")
     private String edit(@ModelAttribute Category category){
-        categoryDao.edit(category);
+        categoryDao.save(category);
         return REDIRECT;
     }
-    @RequestMapping(ENT+"/delete/{id}")
+    @RequestMapping("/delete/{id}")
     private String delete(Model model, @PathVariable int id){
-        categoryDao.delete(categoryDao.getById(id));
+        categoryDao.delete(categoryDao.findOne(id));
         return REDIRECT;
     }
 

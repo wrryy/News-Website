@@ -11,11 +11,14 @@
 <%@ include file="../menu.jsp" %>
 
 <form:form method="post" action="/article/edit" modelAttribute="article">
-    <form:hidden path="id"/>
+    <form:errors path="title" cssClass="error"/>
     Title: <form:input path="title" maxlength="100"/><br>
     Author: <form:select items="${authors}" itemValue="id" itemLabel="firstName" path="author.id"/><br>
+    <form:errors path="category" cssClass="error"/>
     Categories: <form:select items="${cats}" itemValue="id" itemLabel="name" path="category" multiple="true"/><br>
+    <form:errors path="content" cssClass="error"/>
     Content<form:textarea path="content" rows="5" cols="20"/><br>
+    <form:hidden path="id"/>
     <input type="submit" value="Send">
 </form:form>
 </body>

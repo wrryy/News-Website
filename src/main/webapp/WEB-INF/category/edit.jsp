@@ -12,6 +12,7 @@
 
 <form:form method="post" action="/category/edit" modelAttribute="category">
     <form:hidden path="id"/>
+    <form:errors path="name" cssClass="error"/>
     <form:input path="name"/>
     <form:input path="description"/>
     <input type="submit" value="Send">
